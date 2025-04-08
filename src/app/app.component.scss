@@ -1,0 +1,39 @@
+@import './styles/variables';
+
+mat-toolbar {
+    --mat-toolbar-container-background-color: #{$grey-500};
+    --mat-toolbar-container-text-color: #{$white};
+}
+
+mat-drawer-container {
+    --mat-sidenav-container-background-color: #{$surface};
+    --mat-sidenav-content-background-color: #{$background};
+
+    height: calc(100% - var(--mat-toolbar-standard-height));
+}
+mat-drawer {
+    width: 250px;
+    padding: 20px;
+    border-right-style: none;
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        a {
+            color: #5e626d;
+            text-decoration: none;
+        }
+
+        .active-link {
+            color: #2e7adb;
+        }
+    }
+}
+
+mat-drawer-content {
+    padding: 20px;
+    height: calc(100% - var(--mat-toolbar-standard-height));
+    overflow-y: auto;
+}
