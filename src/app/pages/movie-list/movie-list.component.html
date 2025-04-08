@@ -1,0 +1,51 @@
+<!-- <h4>List Movies</h4> -->
+<mat-card class="mat-elevation-z1">
+    <mat-card-header>
+        <mat-card-title>List Movies</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Year
+                        <input type="text" name="year" placeholder="Filter by year" [(ngModel)]="yearFilter" (keyup)="applyFilters()"/>
+                    </th>
+                    <th>Title</th>
+                    <th>Winner?
+                        <select name="isWinner" [(ngModel)]="winnerFilter" (change)="applyFilters()">
+                            <option [ngValue]="null" selected>Yes/No</option>
+                            <option [ngValue]="true">Yes</option>
+                            <option [ngValue]="false">No</option>
+                        </select>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let movie of filteredMovies">
+                    <td>{{movie.id}}</td>
+                    <td>{{movie.year}}</td>
+                    <td>{{movie.title}}</td>
+                    <td>{{movie.winner}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination">
+            <button (click)="goToFirstPage()" [disabled]="currentPage === 0">
+                <mat-icon>skip_previous</mat-icon>
+            </button>
+            <button (click)="prevPage()" [disabled]="currentPage === 0">
+                <span>◀</span>
+            </button>
+            <button *ngFor="let page of totalPagesArray" (click)="goToPage(page)" [class.active]="currentPage === page">
+                <span>{{ page + 1 }}</span>
+            </button>
+            <button (click)="nextPage()" [disabled]="currentPage === (totalPages - 1)">
+                <span>▶</span>
+            </button>
+            <button (click)="goToLastPage()" [disabled]="currentPage === (totalPages - 1)">
+                <mat-icon>skip_next</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

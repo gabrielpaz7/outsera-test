@@ -1,0 +1,38 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-xs;
+    background-color: $surface;
+    border: 1px solid $border-color;
+    border-top: none;
+    
+
+    button {
+        padding: $spacing-sm;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 0;
+        background-color: transparent;
+        color: $on-surface;
+        
+        span {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        };
+
+        &.active {
+            background-color: $primary;
+            color: $white;
+            border-color: $primary;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}

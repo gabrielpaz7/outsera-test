@@ -1,0 +1,5 @@
+@import 'src/app/styles/variables';
+
+mat-card mat-card-header mat-card-title {
+    padding: $spacing-sm 0;
+}
