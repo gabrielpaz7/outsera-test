@@ -1,0 +1,18 @@
+.mdc-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+    --mdc-filled-button-container-color: #{$primary};
+    --mdc-filled-button-label-text-color: #{$on-primary};
+}
+
+
+.mdc-button,
+.mdc-button--unelevated {
+    padding: 0;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+
+    & > .mat-icon {
+        margin-right: 0;
+    }
+}

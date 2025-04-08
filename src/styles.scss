@@ -1,6 +1,11 @@
 @import 'app/styles/variables';
 @import 'app/styles/table';
 @import 'app/styles/pagination';
+@import 'app/styles/input';
+@import 'app/styles/select';
+@import 'app/styles/heading';
+@import 'app/styles/card';
+@import 'app/styles/button';
 
 html, body { 
     height: 100%;
@@ -9,3 +14,5 @@ html, body {
 }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// @TODO: Add custom theming styles to correct color issues

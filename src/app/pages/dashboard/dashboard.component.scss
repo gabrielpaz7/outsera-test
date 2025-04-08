@@ -1,0 +1,26 @@
+@import 'src/app/styles/variables';
+
+.dashboard {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+
+    mat-card {
+        margin: 10px;
+        flex: 1 1 calc(33% - $spacing-sm);
+    }
+}
+
+.list-winning-movies {
+    form {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        margin-bottom: $spacing-md;
+    }
+}
+
+.producers-win-interval .table-wrapper {
+    margin-bottom: $spacing-md;
+}

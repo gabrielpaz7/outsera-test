@@ -12,23 +12,10 @@ table {
         text-align: center;
     }
 
-
     th,
     td {
         border: 1px solid $border-color;
         padding: $spacing-sm;
-    }
-
-    th {
-        input,
-        select {
-            width: 100%;
-            margin-top: $spacing-xs;
-            padding: $spacing-sm;
-            box-sizing: border-box;
-            border: 1px solid $border-color;
-            color: $on-background;
-        }
     }
 
     tr:nth-child(even) {
