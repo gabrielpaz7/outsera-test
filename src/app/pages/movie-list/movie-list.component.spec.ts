@@ -233,7 +233,7 @@ describe('@MovieListComponent', () => {
   it('#should create component', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('#should call api service on init', () => {
     spyOn(movieService, 'getMovies').and.returnValue(of(mockMovieResponse));
     component.ngOnInit();
@@ -243,12 +243,11 @@ describe('@MovieListComponent', () => {
   it('#should load movies and update component state', () => {
     const request: MovieRequest = { page: 0, size: 15 };
     spyOn(movieService, 'getMovies').withArgs(request).and.returnValue(of(mockMovieResponse));
-  
+
     component.loadMovies();
-  
+
     expect(movieService.getMovies).toHaveBeenCalledWith(request);
     expect(component.movies).toEqual(mockMovieResponse.content);
-    expect(component.filteredMovies).toEqual(mockMovieResponse.content);
     expect(component.itemsPerPage).toBe(mockMovieResponse.size);
     expect(component.currentPage).toBe(mockMovieResponse.number);
     expect(component.totalPages).toBe(mockMovieResponse.totalPages);
@@ -256,47 +255,76 @@ describe('@MovieListComponent', () => {
 
   it('#should log an error when movieService.getMovies fails', () => {
     const mockError = new Error('API failure');
-  
+
     spyOn(movieService, 'getMovies').and.returnValue(throwError(() => mockError));
     const consoleSpy = spyOn(console, 'error');
-  
+
     component.loadMovies();
-  
+
     expect(movieService.getMovies).toHaveBeenCalled();
     expect(consoleSpy).toHaveBeenCalledWith('Error fetching movies:', mockError);
   });
 
   it('#should filter movies by year and winner', () => {
-    component.movies = mockMovieResponse.content;
-  
-    component.yearFilter = 1981;
-    component.winnerFilter = true;
-  
+    const mockFilterdMovies = {
+      "content": [
+        {
+          "id": 41,
+          "year": 1987,
+          "title": "Leonard Part 6",
+          "studios": [
+            "Paramount Pictures"
+          ],
+          "producers": [
+            "Frank Yablans"
+          ],
+          "winner": true
+        }
+      ],
+      "pageable": {
+        "sort": {
+          "sorted": false,
+          "unsorted": true,
+          "empty": true
+        },
+        "offset": 0,
+        "pageSize": 15,
+        "pageNumber": 0,
+        "paged": true,
+        "unpaged": false
+      },
+      "totalPages": 14,
+      "totalElements": 206,
+      "last": false,
+      "size": 15,
+      "number": 0,
+      "sort": {
+        "sorted": false,
+        "unsorted": true,
+        "empty": true
+      },
+      "first": true,
+      "numberOfElements": 15,
+      "empty": false
+    };
+
+    spyOn(movieService, 'getMovies').and.returnValue(of(mockFilterdMovies));
+
+    component.yearFilter.setValue(1987);
+    component.winnerFilter.setValue(true);
+
     component.applyFilters();
-  
-    expect(component.filteredMovies).toEqual([
-      {
-        "id": 11,
-        "year": 1981,
-        "title": "Mommie Dearest",
-        "studios": [
-          "Paramount Pictures"
-        ],
-        "producers": [
-          "Frank Yablans"
-        ],
-        "winner": true
-      }
-    ]);
+
+    expect(component.movies).toEqual(mockFilterdMovies.content);
   });
 
   it('#should decrement page and call loadMovies when currentPage > 0', () => {
     component.currentPage = 2;
     component.itemsPerPage = 10;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.prevPage();
-  
+
     expect(component.currentPage).toBe(1);
     expect(loadMoviesSpy).toHaveBeenCalledWith({ page: 1, size: 10 });
   });
@@ -304,9 +332,9 @@ describe('@MovieListComponent', () => {
   it('#should not call loadMovies when currentPage is 0', () => {
     component.currentPage = 0;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.prevPage();
-  
+
     expect(loadMoviesSpy).not.toHaveBeenCalled();
     expect(component.currentPage).toBe(0);
   });
@@ -316,9 +344,9 @@ describe('@MovieListComponent', () => {
     component.totalPages = 3;
     component.itemsPerPage = 10;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.nextPage();
-  
+
     expect(component.currentPage).toBe(2);
     expect(loadMoviesSpy).toHaveBeenCalledWith({ page: 2, size: 10 });
   });
@@ -327,9 +355,9 @@ describe('@MovieListComponent', () => {
     component.currentPage = 2;
     component.totalPages = 3;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.nextPage();
-  
+
     expect(loadMoviesSpy).not.toHaveBeenCalled();
     expect(component.currentPage).toBe(2);
   });
@@ -338,9 +366,9 @@ describe('@MovieListComponent', () => {
     component.totalPages = 5;
     component.itemsPerPage = 10;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.goToPage(2);
-  
+
     expect(component.currentPage).toBe(2);
     expect(loadMoviesSpy).toHaveBeenCalledWith({ page: 2, size: 10 });
   });
@@ -349,32 +377,50 @@ describe('@MovieListComponent', () => {
     component.totalPages = 5;
     component.currentPage = 1;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.goToPage(10);
-  
+
     expect(component.currentPage).toBe(1);
     expect(loadMoviesSpy).not.toHaveBeenCalled();
   });
-  
+
   it('#should go to first page and call loadMovies with page 0', () => {
     component.currentPage = 3;
     component.itemsPerPage = 10;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.goToFirstPage();
-  
+
     expect(component.currentPage).toBe(0);
     expect(loadMoviesSpy).toHaveBeenCalledWith({ page: 0, size: 10 });
   });
-  
+
   it('#should go to last page and call loadMovies with last page index', () => {
     component.totalPages = 5;
     component.itemsPerPage = 10;
     const loadMoviesSpy = spyOn(component, 'loadMovies');
-  
+
     component.goToLastPage();
-  
+
     expect(component.currentPage).toBe(4);
     expect(loadMoviesSpy).toHaveBeenCalledWith({ page: 4, size: 10 });
-  }); 
+  });
+
+  it('#should get pagination request', () => {
+    component.currentPage = 0;
+    component.itemsPerPage = 10;
+    component.yearFilter.setValue(2025);
+    component.winnerFilter.setValue(true);
+
+    const expectedRequest: MovieRequest = {
+      page: 0,
+      size: 10,
+      year: 2025,
+      winner: true
+    };
+
+    const request: MovieRequest = component.getPaginationRequest();
+
+    expect(request).toEqual(expectedRequest);
+  });
 });

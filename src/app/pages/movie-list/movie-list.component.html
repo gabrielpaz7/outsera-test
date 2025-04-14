@@ -9,20 +9,20 @@
                 <tr>
                     <th>ID</th>
                     <th>Year
-                        <input type="text" name="year" placeholder="Filter by year" [(ngModel)]="yearFilter" (keyup)="applyFilters()"/>
+                        <input type="text" name="year" placeholder="Filter by year" [formControl]="yearFilter"/>
                     </th>
                     <th>Title</th>
                     <th>Winner?
-                        <select name="isWinner" [(ngModel)]="winnerFilter" (change)="applyFilters()">
+                        <select name="isWinner" [formControl]="winnerFilter">
                             <option [ngValue]="null" selected>Yes/No</option>
-                            <option [ngValue]="true">Yes</option>
-                            <option [ngValue]="false">No</option>
+                            <option [ngValue]="'true'">Yes</option>
+                            <option [ngValue]="'false'">No</option>
                         </select>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let movie of filteredMovies">
+                <tr *ngFor="let movie of movies">
                     <td>{{movie.id}}</td>
                     <td>{{movie.year}}</td>
                     <td>{{movie.title}}</td>
