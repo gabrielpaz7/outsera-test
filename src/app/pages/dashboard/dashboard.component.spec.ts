@@ -218,14 +218,6 @@ describe('@DashboardComponent', () => {
     expect(movieService.getYearsWithMultipleWinners).toHaveBeenCalled();
     expect(movieService.getStudiosWinCount).toHaveBeenCalled();
     expect(movieService.getProducersWinInterval).toHaveBeenCalled();
-    expect(movieService.getWinningMoviesByYear).toHaveBeenCalled();
-
-  });
-
-  it('#should initialize form with current year', () => {
-    const currentYear = new Date().getFullYear();
-    component.initForm();
-    expect(component.form.get('selectedYear')?.value).toBe(currentYear);
   });
 
   it('#should get years with multiple winners', () => {

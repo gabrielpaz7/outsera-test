@@ -29,15 +29,13 @@ export class DashboardComponent implements OnInit{
     this.getYearsWithMultipleWinners();
     this.getStudiosWinCount();
     this.getProducersWinInterval();
-    this.getWinningMoviesByYear();
 
     //@TODO: Make API calls in parallel using forkJoin
   }
 
   initForm() {
-    const currentYear = new Date().getFullYear();
     this.form = this.formBuilder.group({
-      selectedYear: [currentYear]
+      selectedYear: []
     });
   }
 
